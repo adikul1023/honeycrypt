@@ -2,13 +2,14 @@
 """
 HoneyCrypt CLI - Command-Line Interface for HoneyCrypt
 Simple interactive CLI with hidden password input
+Cross-platform: Linux, Windows, macOS
 """
 
 import argparse
 import sys
 import os
 import getpass
-from pathlib import Path
+import platform
 import importlib.util
 
 # Import core services from stable1.0.py
@@ -51,7 +52,20 @@ except Exception as e:
 
 
 class CLIProgress:
-    """Simple progress indicator for CLI"""
+    """Simple progress indicator for CLI with cross-platform symbol support"""
+    
+    # Detect if we can use Unicode symbols (Linux/macOS or Windows with UTF-8 support)
+    _use_unicode = (
+        platform.system() != 'Windows' or 
+        (hasattr(sys.stdout, 'encoding') and sys.stdout.encoding.lower().startswith('utf'))
+    )
+    
+    # Symbol sets for different platforms
+    _symbols = {
+        'success': '✓' if _use_unicode else '[OK]',
+        'error': '✗' if _use_unicode else '[ERROR]',
+        'info': 'ℹ' if _use_unicode else '[i]'
+    }
     
     @staticmethod
     def show(message, stage=None):
@@ -64,27 +78,35 @@ class CLIProgress:
     @staticmethod
     def success(message):
         """Show success message"""
-        print(f"✓ {message}")
+        symbol = CLIProgress._symbols['success']
+        print(f"{symbol} {message}")
     
     @staticmethod
     def error(message):
         """Show error message"""
-        print(f"✗ Error: {message}", file=sys.stderr)
+        symbol = CLIProgress._symbols['error']
+        print(f"{symbol} Error: {message}", file=sys.stderr)
     
     @staticmethod
     def info(message):
         """Show info message"""
-        print(f"ℹ {message}")
+        symbol = CLIProgress._symbols['info']
+        print(f"{symbol} {message}")
 
 
 def validate_file_exists(filepath, file_type="File"):
-    """Validate that a file exists"""
+    """Validate that a file exists (cross-platform path handling)"""
+    # Normalize path for the current platform
+    filepath = os.path.normpath(filepath)
+    
     if not os.path.exists(filepath):
         CLIProgress.error(f"{file_type} not found: {filepath}")
         sys.exit(1)
     if not os.path.isfile(filepath):
         CLIProgress.error(f"{file_type} is not a regular file: {filepath}")
         sys.exit(1)
+    
+    return filepath
 
 
 def validate_password(password, allow_empty=False):
@@ -109,9 +131,9 @@ def encrypt_standard(real_file, decoy_file):
     CLIProgress.show("Standard Encryption", "HONEYCRYPT")
     print()
     
-    # Validate inputs
-    validate_file_exists(real_file, "Real file")
-    validate_file_exists(decoy_file, "Decoy file")
+    # Validate inputs and normalize paths
+    real_file = validate_file_exists(real_file, "Real file")
+    decoy_file = validate_file_exists(decoy_file, "Decoy file")
     
     # Prompt for password (hidden input)
     print("Enter password for the real file:")
@@ -179,8 +201,8 @@ def decrypt_file(encrypted_file):
     CLIProgress.show("Decryption", "HONEYCRYPT")
     print()
     
-    # Validate input
-    validate_file_exists(encrypted_file, "Encrypted file")
+    # Validate input and normalize path
+    encrypted_file = validate_file_exists(encrypted_file, "Encrypted file")
     
     # Prompt for password (hidden input)
     print("Enter password to decrypt:")
@@ -248,8 +270,8 @@ def encrypt_multi(real_file):
     CLIProgress.show("Multi-Decoy Encryption", "HONEYCRYPT")
     print()
     
-    # Validate input
-    validate_file_exists(real_file, "Real file")
+    # Validate input and normalize path
+    real_file = validate_file_exists(real_file, "Real file")
     
     # Prompt for real file password
     print("Enter password for the real file:")
@@ -284,7 +306,7 @@ def encrypt_multi(real_file):
             CLIProgress.error("File path cannot be empty")
             continue
         
-        validate_file_exists(decoy_path, f"Decoy file {decoy_count}")
+        decoy_path = validate_file_exists(decoy_path, f"Decoy file {decoy_count}")
         
         # Read decoy file
         try:
