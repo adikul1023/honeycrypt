@@ -278,7 +278,13 @@ Contributions welcome! Please:
 
 ## 📜 License
 
-[Add your license here - e.g., MIT, GPL, etc.]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**Key Points:**
+- ✅ Free to use, modify, and distribute
+- ✅ Commercial use allowed
+- ✅ No warranty provided
+- ⚠️ Must include copyright notice
 
 ## ⚠️ Disclaimer
 
