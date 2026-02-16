@@ -23,34 +23,6 @@ Features that would significantly improve security or usability.
 ## Priority: Medium
 Nice-to-have features that improve user experience.
 
-### 2. Command-Line Interface (CLI)
-**Status:** Deferred  
-**Description:** Non-interactive CLI for scripting and automation
-
-**Proposed Command Structure:**
-```bash
-# Standard encryption
-honeycrypt encrypt --real file.txt --decoy decoy.txt --password "pass" --output encrypted.hcrypt
-
-# With self-destruct
-honeycrypt encrypt --real secret.pdf --decoy fake.pdf -p "mainpass" --self-destruct "destroypass" -o out.hcrypt
-
-# With padding
-honeycrypt encrypt --real data.bin --decoy fake.bin -p "pass" --pad 100 -o out.hcrypt
-
-# Multi-decoy encryption
-honeycrypt encrypt-multi --real important.doc --decoys "d1.txt,d2.pdf,d3.jpg" -p "pass" -o out.hcrypt
-
-# Decryption
-honeycrypt decrypt --input encrypted.hcrypt --password "pass" --output decrypted.txt
-```
-
-**Implementation Notes:**
-- Use `argparse` for argument parsing
-- Call existing `EncryptionService` and `DecryptionService` methods
-- Progress output with optional `--quiet` flag
-- Return appropriate exit codes (0 = success, 1 = failure)
-
 ---
 
 ## Priority: Low
@@ -79,7 +51,7 @@ Advanced features for power users.
 
 ---
 
-## Completed Features (v0.9)
+## Completed Features (v1.0)
 
 ✅ **zlib Compression** - Lossless compression with >5% threshold  
 ✅ **Custom Padding** - User-specified final file size with random padding  
@@ -89,6 +61,7 @@ Advanced features for power users.
 ✅ **Format Version 0x03** - New format with version byte, compression flags, self-destruct support  
 ✅ **Password Strength Meter** - Real-time visual strength indicator with color-coded bar (red/yellow/green)  
 ✅ **Password Visibility Toggle** - Eye icon (👁/🚫) to show/hide password text in all password fields
+✅ **Command-Line Interface (CLI)** - Full-featured CLI for scripting and automation with encrypt, encrypt-multi, and decrypt commands
 
 ---
 
@@ -102,4 +75,4 @@ Advanced features for power users.
 ---
 
 **Last Updated:** February 2026  
-**Current Stable Version:** test0.9
+**Current Stable Version:** v1.0

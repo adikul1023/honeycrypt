@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# HoneyCrypt CLI Wrapper Script
+# This script automatically uses the virtual environment if available
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Check if virtual environment exists
+if [ -f "$SCRIPT_DIR/.venv/bin/python" ]; then
+    PYTHON="$SCRIPT_DIR/.venv/bin/python"
+else
+    PYTHON="python3"
+fi
+
+# Run the CLI with all arguments
+exec "$PYTHON" "$SCRIPT_DIR/honeycrypt_cli.py" "$@"

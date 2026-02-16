@@ -8,6 +8,13 @@ tempfiles/
 # Test files
 test*.py
 test*.spec
+test*.txt
+test*.hcrypt
+*_decrypted.txt
+*_decrypted
+
+# Encrypted files (user data)
+*.hcrypt
 
 # App icon related files
 app_icon.py
