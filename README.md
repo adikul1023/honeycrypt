@@ -313,6 +313,6 @@ If you encounter issues:
 
 ---
 
-**Made with 🔐 by the HoneyCrypt Team**
+**Made with 🔐 by the adikul1023**
 
 *"Privacy is not about having something to hide. Privacy is about having something to protect."*
