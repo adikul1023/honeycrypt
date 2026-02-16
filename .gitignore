@@ -1,0 +1,45 @@
+# Folders to exclude
+web_version/
+Webapp/
+build/
+dist/
+tempfiles/
+
+# Test files
+test*.py
+test*.spec
+
+# App icon related files
+app_icon.py
+app_icon.ico
+create_icon.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.spec
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
